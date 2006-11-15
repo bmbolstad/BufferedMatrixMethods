@@ -11,6 +11,7 @@
  **  Jun 27, 2006 - Initial version
  **  Aug  9, 2006 - develop background correction implementation
  **  Aug 10, 2006 - median polish summarization
+ **  Nov 13, 2006 - make max algorithm faster
  ** 
  *****************************************************/
 
@@ -52,19 +53,28 @@ int sort_double(const double *a1,const double *a2){
 
 double find_max(double *x,int length){
   int i;
-  double *buffer = Calloc(length,double);
+  /*  double *buffer = Calloc(length,double); */
   double max;
 
-  for (i=0; i < length; i++){
+  /*
+    for (i=0; i < length; i++){
     buffer[i] = x[i];
+    }
+  */
+
+  /* qsort(buffer,length,sizeof(double),(int(*)(const void*, const void*))sort_double); */
+
+  max = x[0];
+  for (i=1; i < length; i++){
+    if (x[i] > max){
+      max = x[i];
+    }
   }
+  
 
-  qsort(buffer,length,sizeof(double),(int(*)(const void*, const void*))sort_double);
-
-  max = buffer[length-1];
 
   /* printf("max is %f \n", max); */
-  Free(buffer);
+  /* Free(buffer); */
   return max;
 }
 
