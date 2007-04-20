@@ -1,7 +1,9 @@
 \name{RMA preprocess BufferedMatrix}
 \alias{bg.correct.BufferedMatrix}
 \alias{normalize.BufferedMatrix.quantiles}
-\alias{median.polish.summarize.BufferedMatrix}
+\alias{median.polish.summarize}
+\alias{median.polish.summarize,BufferedMatrix-method}
+
 \title{RMA preprocessing functions that work on BufferedMatrix objects}
 \description{This group of functions can be used to apply the RMA
   background correction, Quantile normalization and Median polish
@@ -9,21 +11,21 @@
 }
 \usage{normalize.BufferedMatrix.quantiles(x,copy=TRUE)
 bg.correct.BufferedMatrix(x, copy=TRUE)
-median.polish.summarize.BufferedMatrix(x,nProbeSets,ProbeNames)
+%%%median.polish.summarize(x,nProbeSets,ProbeNames)
 }
 \arguments{
 \item{x}{a \code{\link[BufferedMatrix]{BufferedMatrix}} containing data
 to be processed}
 \item{copy}{should the \code{\link[BufferedMatrix]{BufferedMatrix}} be
 copied or should the input object be changed on output}
-\item{nProbeSets}{Number of probesets stored in the
-\code{\link[BufferedMatrix]{BufferedMatrix}}}
-\item{ProbeNames}{Contains row names linking probes with probesets}
+%%%\item{nProbeSets}{Number of probesets stored in the
+%%%\code{\link[BufferedMatrix]{BufferedMatrix}}}
+%%%\item{ProbeNames}{Contains row names linking probes with probesets}
 }
 \value{In the case of \code{normalize.BufferedMatrix.quantiles} and
 \code{bg.correct.BufferedMatrix} a
 \code{\link[BufferedMatrix]{BufferedMatrix}} is returned. The function
-\code{median.polish.summarize.BufferedMatrix} returns a \code{\link{matrix}}.
+\code{median.polish.summarize} returns a \code{\link{matrix}}.
 }
 \seealso{\code{\link[affy]{rma}}
 }
