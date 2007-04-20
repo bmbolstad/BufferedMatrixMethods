@@ -63,10 +63,11 @@ bg.correct.BufferedMatrix <- function(x, copy=TRUE){
 }
 
 
+setGeneric("median.polish.summarize", function(x,...) standardGeneric("median.polish.summarize"))
 
-
-median.polish.summarize.BufferedMatrix <- function(x,nProbeSets,ProbeNames){
+setMethod("median.polish.summarize", "BufferedMatrix", function(x,nProbeSets,ProbeNames){
+####median.polish.summarize.BufferedMatrix <- function(x,nProbeSets,ProbeNames){
   
   return(.Call("R_bm_summarize_medianpolish", x@rawBufferedMatrix, nProbeSets, ProbeNames, PACKAGE="BufferedMatrixMethods"))
-
-}
+  
+})
