@@ -1019,7 +1019,7 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
   ProbeNames = Calloc(rows,char *);
 
   for (i =0; i < rows; i++)
-    ProbeNames[i] = CHAR(VECTOR_ELT(ProbeNamesVec,i));
+    ProbeNames[i] = CHAR(STRING_ELT(ProbeNamesVec,i));
 
 
   outnames = Calloc(nprobesets,char *);
