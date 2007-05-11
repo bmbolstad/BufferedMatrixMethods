@@ -67,7 +67,10 @@ setGeneric("median.polish.summarize", function(x,...) standardGeneric("median.po
 
 setMethod("median.polish.summarize", "BufferedMatrix", function(x,nProbeSets,ProbeNames){
 ####median.polish.summarize.BufferedMatrix <- function(x,nProbeSets,ProbeNames){
-  
-  return(.Call("R_bm_summarize_medianpolish", x@rawBufferedMatrix, nProbeSets, ProbeNames, PACKAGE="BufferedMatrixMethods"))
-  
+
+  if (length(ProbeNames) == dim(x)[1]){
+    return(.Call("R_bm_summarize_medianpolish", x@rawBufferedMatrix, nProbeSets, ProbeNames, PACKAGE="BufferedMatrixMethods"))
+  } else {
+    stop("ProbeNames argument is of incorrect length")
+  }
 })
