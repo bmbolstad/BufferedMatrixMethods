@@ -892,11 +892,11 @@ void median_polish(doubleBufferedMatrix Matrix, int rows, int cols, int *cur_row
 
 /************************************************************************************
  **
- **  void do_RMA(double *PM, char **ProbeNames, int *rows, int * cols)
+ **  void do_RMA(double *PM, const char **ProbeNames, int *rows, int * cols)
  **
  ** double *PM - matrix of dimension rows by cols (probes by chips) should already be
  **              normalized and background corrected.
- ** char **ProbeNames - Probeset names, one for each probe.
+ ** const char **ProbeNames - Probeset names, one for each probe.
  ** int *rows, *cols - dimensions of matrix
  **
  ** perform the multichip averaging. PM should be background corrected and normalized
@@ -909,12 +909,12 @@ void median_polish(doubleBufferedMatrix Matrix, int rows, int cols, int *cur_row
  **
  ************************************************************************************/
 
-void do_RMA_buffmat(doubleBufferedMatrix Matrix, char **ProbeNames, int *rows, int *cols, double *results, char **outNames, int nps){
+void do_RMA_buffmat(doubleBufferedMatrix Matrix, const char **ProbeNames, int *rows, int *cols, double *results, char **outNames, int nps){
   int j = 0;
   int i = 0;
   int k = 0;
   int size;
-  char *first;
+  const char *first;
   int first_ind;
   int max_nrows = 1000;
 
@@ -994,7 +994,7 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
   int rows, cols;
   double *outexpr;
   char **outnames;
-  char **ProbeNames;
+  const char **ProbeNames;
   int i,nprobesets;
 
   SEXP outvec; /* ,outnamesvec; */
@@ -1016,7 +1016,7 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
 
   nprobesets=INTEGER(N_probes)[0];
 
-  ProbeNames = Calloc(rows,char *);
+  ProbeNames = Calloc(rows,const char *);
 
   for (i =0; i < rows; i++)
     ProbeNames[i] = CHAR(STRING_ELT(ProbeNamesVec,i));
