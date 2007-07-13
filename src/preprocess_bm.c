@@ -564,7 +564,11 @@ void bm_quantile_normalize(doubleBufferedMatrix Matrix){
  
     for (i =0; i < rows; i++){
       ind = dimat[0][i].rank;
-      dbm_setValue(Matrix,ind,j,row_mean[(int)floor(ranks[i])-1]);
+      if (ranks[i] - floor(ranks[i]) > 0.4){
+        dbm_setValue(Matrix,ind,j,0.5*(row_mean[(int)floor(ranks[i])-1] + row_mean[(int)floor(ranks[i])]));
+      } else { 
+        dbm_setValue(Matrix,ind,j,row_mean[(int)floor(ranks[i])-1]);
+      }
     }
   }
   
