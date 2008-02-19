@@ -1,0 +1,7 @@
+export("bg.correct.BufferedMatrix",
+       "normalize.BufferedMatrix.quantiles",	
+       "BufferedMatrix.read.celfiles",
+       "BufferedMatrix.read.probematrix",
+       "BufferedMatrix.justRMA")
+useDynLib("BufferedMatrixMethods")
+exportMethods("median.polish.summarize")
