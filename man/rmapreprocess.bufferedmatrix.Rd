@@ -10,8 +10,9 @@
   background correction, Quantile normalization and Median polish
   summarization to data stored in a BufferedMatrix object.
 }
-\usage{normalize.BufferedMatrix.quantiles(x,copy=TRUE)
+\usage{
 bg.correct.BufferedMatrix(x, copy=TRUE)
+normalize.BufferedMatrix.quantiles(x,copy=TRUE)
 BufferedMatrix.bg.correct.normalize.quantiles(x,copy=TRUE)
 %%%median.polish.summarize(x,nProbeSets,ProbeNames)
 }
