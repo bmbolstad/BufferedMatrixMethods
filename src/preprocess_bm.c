@@ -530,7 +530,7 @@ void bm_quantile_normalize(doubleBufferedMatrix Matrix){
     
   for (i =0; i < rows; i++){
     row_mean[i] = 0.0;
-    } 
+  } 
 
 
   for (j = 0; j < cols; j++){
@@ -1066,5 +1066,98 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
   
 
 
+
+}
+
+
+
+
+
+void bm_rma_bg_correct_quantile_normalize(doubleBufferedMatrix Matrix, SEXP fn,SEXP rho){
+  int rows, cols;
+  int i,j;
+  double *params;
+  double *datvec;
+  int ind;
+  dataitem **dimat;
+  double *row_mean;
+  double *ranks;
+
+  rows = dbm_getRows(Matrix);
+  cols = dbm_getCols(Matrix);
+  
+  params = Calloc(3,double);
+
+  datvec = (double *)Calloc(rows,double);
+  row_mean = (double *)Calloc(rows,double);
+    
+  
+  for (j = 0; j < cols; j++){
+    dbm_getValueColumn(Matrix,&j,datvec,1);
+    bg_parameters2(datvec, params,rows,fn,rho);
+    bg_adjust(datvec,params,rows);
+    dbm_setValueColumn(Matrix,&j,datvec,1);
+    qsort(datvec,rows,sizeof(double),(int(*)(const void*, const void*))sort_double); 
+ 
+    for (i =0; i < rows; i++){
+      row_mean[i] += datvec[i]/((double)cols);
+    }
+  }
+
+    ranks = (double *)Calloc(rows,double);
+  /* now assign back distribution */
+  dimat = (dataitem **)Calloc(1,dataitem *);
+  dimat[0] = (dataitem *)Calloc(rows,dataitem);
+
+  for (j = 0; j < cols; j++){ 
+ 
+    dbm_getValueColumn(Matrix,&j,datvec,1); 
+ 
+    for (i =0; i < rows; i++){
+      dimat[0][i].data = datvec[i];
+      dimat[0][i].rank = i;
+    }
+ 
+    qsort(dimat[0],rows,sizeof(dataitem),sort_fn);
+ 
+    get_ranks(ranks,dimat[0],rows);
+ 
+    for (i =0; i < rows; i++){
+      ind = dimat[0][i].rank;
+      if (ranks[i] - floor(ranks[i]) > 0.4){
+        dbm_setValue(Matrix,ind,j,0.5*(row_mean[(int)floor(ranks[i])-1] + row_mean[(int)floor(ranks[i])]));
+      } else { 
+        dbm_setValue(Matrix,ind,j,row_mean[(int)floor(ranks[i])-1]);
+      }
+    }
+  }
+
+  Free(params);
+  Free(ranks);
+  Free(datvec);
+  Free(dimat[0]);
+  Free(dimat);
+  Free(row_mean);
+}
+
+
+SEXP R_bm_rma_bg_correct_quantile_normalize(SEXP R_BufferedMatrix, SEXP fn,SEXP rho){
+
+
+
+  doubleBufferedMatrix Matrix;
+  int current_mode;
+
+
+
+  Matrix =  R_ExternalPtrAddr(R_BufferedMatrix);
+
+  if (Matrix == NULL){
+    return R_BufferedMatrix;
+  }
+
+  bm_rma_bg_correct_quantile_normalize(Matrix, fn, rho);
+
+  return R_BufferedMatrix;
 
 }
