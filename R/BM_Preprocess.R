@@ -74,3 +74,30 @@ setMethod("median.polish.summarize", "BufferedMatrix", function(x,nProbeSets,Pro
     stop("ProbeNames argument is of incorrect length")
   }
 })
+
+
+
+BufferedMatrix.bg.correct.normalize.quantiles <- function(x,copy=TRUE){
+
+  if (!is(x,"BufferedMatrix")){
+    stop("Need BufferedMatrix")
+  }
+
+  if (copy){
+    x.copy <- duplicate(x)
+  } else {
+    x.copy <- x
+  }
+  
+
+  bg.dens <- function(x) {
+    density(x, kernel = "epanechnikov", n = 2^14)
+  }
+
+
+  x.copy@rawBufferedMatrix <- .Call("R_bm_rma_bg_correct_quantile_normalize",x.copy@rawBufferedMatrix, body(bg.dens), new.env(),PACKAGE="BufferedMatrixMethods")
+
+  return (x.copy)
+}
+
+

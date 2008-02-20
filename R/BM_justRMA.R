@@ -66,20 +66,28 @@ BufferedMatrix.justRMA <- function(..., filenames=character(0),celfile.path=NULL
                              rm.mask = rm.mask, rm.outliers = rm.outliers, rm.extra = rm.extra, verbose = verbose,which="pm",cdfname = cdfname)	
 			     
   ngenes <- length(geneNames(tmp))
-  ## Background correction
-  if (background){
-    if (verbose){
-       cat("Background correcting\n")
-    }
-    tmp.buffmat <- bg.correct.BufferedMatrix(tmp.buffmat,copy=FALSE)
-  }
-  ## Normalization
 
-  if (normalize){ 
-    if (verbose){
-       cat("Normalizing\n")
-     }
-    tmp.buffmat <- normalize.BufferedMatrix.quantiles(tmp.buffmat,copy=FALSE)
+  if (background & normalize){
+  if (verbose){
+       cat("Backgroud Correcting and Normalizing\n")
+    }
+    tmp.buffmat <- BufferedMatrix.bg.correct.normalize.quantiles(tmp.buffmat,copy=FALSE)
+  } else {
+    ## Background correction
+    if (background){
+       if (verbose){
+       	  cat("Background correcting\n")
+       }	  
+       tmp.buffmat <- bg.correct.BufferedMatrix(tmp.buffmat,copy=FALSE)
+    }
+    ## Normalization
+
+    if (normalize){ 
+       if (verbose){
+       	  cat("Normalizing\n")
+       }
+       tmp.buffmat <- normalize.BufferedMatrix.quantiles(tmp.buffmat,copy=FALSE)
+    }
   }
   ## Summarization
 
