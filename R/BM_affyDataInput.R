@@ -118,6 +118,11 @@ BufferedMatrix.read.probematrix <- function(..., filenames = character(0),celfil
  
   samplenames <- gsub("^/?([^/]*/)*", "", unlist(filenames), extended=TRUE    )
 
+  if (verbose){
+     cat("Confirming that data headers match across all CEL files\n")
+  }
+
+
   headdetails <- .Call("ReadHeader",as.character(filenames[[1]]), PACKAGE="affyio")
 
   for (filenm in filenames[-1]){
@@ -142,7 +147,10 @@ BufferedMatrix.read.probematrix <- function(..., filenames = character(0),celfil
   cdfInfo <- as.list(getCdfInfo(Data))
   cdfInfo <- cdfInfo[order(names(cdfInfo))]
   
-  
+  if (verbose){
+     cat("Reading CEL file data\n")
+  }
+
   tmp <- .Call("read_probeintensities", filenames[[1]],
             				rm.mask, rm.outliers, rm.extra, ref.cdfName,
   	            			dim.intensity, verbose, cdfInfo,which, PACKAGE="affyio")

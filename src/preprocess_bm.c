@@ -2,16 +2,17 @@
  **
  ** file: preprocess_bm.c
  **
- ** Copyright (C) 2006    B. M. Bolstad <bmb@bmbolstad.com>
+ ** Copyright (C) 2006-2008    B. M. Bolstad <bmb@bmbolstad.com>
  **
- ** aim: Pre-process routines that cope with Buffered
- **      Matrix obejcts
+ ** aim: Pre-processing routines that cope with Buffered
+ **      Matrix objects
  **
  **  History
  **  Jun 27, 2006 - Initial version
  **  Aug  9, 2006 - develop background correction implementation
  **  Aug 10, 2006 - median polish summarization
  **  Nov 13, 2006 - make max algorithm faster
+ **  Feb 26, 2008 - comment out " Rprintf("Calculating Expression\n");" in median polish summarization
  ** 
  *****************************************************/
 
@@ -1036,7 +1037,7 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
   outexpr = NUMERIC_POINTER(outvec);
 
   /* printf("Calculating Expression\n"); */
-  Rprintf("Calculating Expression\n");
+  /*  Rprintf("Calculating Expression\n");  /*
 
 
   do_RMA_buffmat(Matrix, ProbeNames, &rows, &cols,outexpr,outnames,nprobesets);
