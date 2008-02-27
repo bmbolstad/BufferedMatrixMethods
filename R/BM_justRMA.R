@@ -69,7 +69,7 @@ BufferedMatrix.justRMA <- function(..., filenames=character(0),celfile.path=NULL
 
   if (background & normalize){
   if (verbose){
-       cat("Backgroud Correcting and Normalizing\n")
+       cat("Background Correcting and Normalizing\n")
     }
     tmp.buffmat <- BufferedMatrix.bg.correct.normalize.quantiles(tmp.buffmat,copy=FALSE)
   } else {
