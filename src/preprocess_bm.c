@@ -1037,7 +1037,7 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
   outexpr = NUMERIC_POINTER(outvec);
 
   /* printf("Calculating Expression\n"); */
-  /*  Rprintf("Calculating Expression\n");  /*
+  /*  Rprintf("Calculating Expression\n");  */
 
 
   do_RMA_buffmat(Matrix, ProbeNames, &rows, &cols,outexpr,outnames,nprobesets);
