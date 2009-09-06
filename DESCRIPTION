@@ -1,7 +1,7 @@
 Package: BufferedMatrixMethods
 Type: Package
 Title: Microarray Data related methods that utlize BufferedMatrix objects
-Version: 1.9.0
+Version: 1.9.1
 Date: 2008-03-01
 Author: B. M. Bolstad <bmb@bmbolstad.com>
 Maintainer: B. M. Bolstad <bmb@bmbolstad.com>
@@ -10,6 +10,6 @@ Suggests: affyio, affy
 LinkingTo: BufferedMatrix
 LazyLoad: Yes
 Description: Microarray analysis methods that use BufferedMatrix objects
-License: GPL version 2 or later
+License: GPL (>= 2)
 URL: http://www.bmbolstad.com
 biocViews: Infrastructure
