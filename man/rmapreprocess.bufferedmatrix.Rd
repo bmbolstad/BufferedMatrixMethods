@@ -17,8 +17,9 @@ BufferedMatrix.bg.correct.normalize.quantiles(x, copy=TRUE)
 %%%median.polish.summarize(x,nProbeSets,ProbeNames)
 }
 \arguments{
-\item{x}{a \code{\link[BufferedMatrix]{BufferedMatrix}} containing data
-to be processed}
+\item{x}{a
+  \code{\link[BufferedMatrix:BufferedMatrix-class]{BufferedMatrix}}
+  containing data to be processed}
 \item{copy}{should the
   \code{\link[BufferedMatrix:BufferedMatrix-class]{BufferedMatrix}} be 
   copied or should the input object be changed on output}
