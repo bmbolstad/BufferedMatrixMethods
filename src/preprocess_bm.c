@@ -13,6 +13,7 @@
  **  Aug 10, 2006 - median polish summarization
  **  Nov 13, 2006 - make max algorithm faster
  **  Feb 26, 2008 - comment out " Rprintf("Calculating Expression\n");" in median polish summarization
+ ** Nov 19, 2009 - fix issue wtih SET_VECTOR_ELT used on STRING
  ** 
  *****************************************************/
 
@@ -1051,7 +1052,7 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
 
   for ( i =0; i < nprobesets; i++){
     PROTECT(temp = mkChar(outnames[i]));
-    SET_VECTOR_ELT(names,i,temp); /* was a direct mkChar prior to Sep 2, 2005*/
+    SET_STRING_ELT(names,i,temp); /* was a direct mkChar prior to Sep 2, 2005*/
     UNPROTECT(1);
   }
   SET_VECTOR_ELT(dimnames,0,names);
