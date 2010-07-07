@@ -5,7 +5,7 @@
 ###
 ### History
 ### Feb 18, 2008 - Initial version
-###
+### Jul 7, 2010 - fix "gsub extended"
 
 checkValidFilenames <- function(filenames) {
     ## Returns TRUE if filenames is a character vector containing
@@ -68,7 +68,7 @@ BufferedMatrix.read.celfiles <- function(...,filenames=character(0),
 			         
   checkValidFilenames(filenames)
 
-  samplenames <- gsub("^/?([^/]*/)*", "", unlist(filenames), extended=TRUE    )
+  samplenames <- gsub("^/?([^/]*/)*", "", unlist(filenames))
 
   headdetails <- .Call("ReadHeader",as.character(filenames[[1]]), PACKAGE="affyio")
 
@@ -116,7 +116,7 @@ BufferedMatrix.read.probematrix <- function(..., filenames = character(0),celfil
 			         
   checkValidFilenames(filenames)
  
-  samplenames <- gsub("^/?([^/]*/)*", "", unlist(filenames), extended=TRUE    )
+  samplenames <- gsub("^/?([^/]*/)*", "", unlist(filenames))
 
   if (verbose){
      cat("Confirming that data headers match across all CEL files\n")
