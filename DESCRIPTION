@@ -11,5 +11,5 @@ LinkingTo: BufferedMatrix
 LazyLoad: Yes
 Description: Microarray analysis methods that use BufferedMatrix objects
 License: GPL (>= 2)
-URL: http://www.bmbolstad.com
+URL: https://github.bom/bmbolstad/BufferedMatrixMethods
 biocViews: Infrastructure
