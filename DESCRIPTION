@@ -3,8 +3,8 @@ Type: Package
 Title: Microarray Data related methods that utlize BufferedMatrix objects
 Version: 1.41.0
 Date: 2012-09-14
-Author: B. M. Bolstad <bmb@bmbolstad.com>
-Maintainer: B. M. Bolstad <bmb@bmbolstad.com>
+Author: Ben Bolstad <bmb@bmbolstad.com>
+Maintainer: Ben Bolstad <bmb@bmbolstad.com>
 Depends: R (>= 2.6.0), BufferedMatrix (>= 1.3.0), methods
 Suggests: affyio, affy
 LinkingTo: BufferedMatrix
