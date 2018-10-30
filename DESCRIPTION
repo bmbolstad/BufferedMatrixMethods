@@ -1,7 +1,7 @@
 Package: BufferedMatrixMethods
 Type: Package
 Title: Microarray Data related methods that utlize BufferedMatrix objects
-Version: 1.45.0
+Version: 1.46.0
 Date: 2012-09-14
 Author: Ben Bolstad <bmb@bmbolstad.com>
 Maintainer: Ben Bolstad <bmb@bmbolstad.com>
