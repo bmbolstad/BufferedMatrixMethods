@@ -55,7 +55,7 @@ int sort_double(const double *a1,const double *a2){
 
 double find_max(double *x,int length){
   int i;
-  /*  double *buffer = Calloc(length,double); */
+  /*  double *buffer = R_Calloc(length,double); */
   double max;
 
   /*
@@ -76,7 +76,7 @@ double find_max(double *x,int length){
 
 
   /* printf("max is %f \n", max); */
-  /* Free(buffer); */
+  /* R_Free(buffer); */
   return max;
 }
 
@@ -266,8 +266,8 @@ void bg_parameters2(double *PM, double *param, int rows, SEXP fn,SEXP rho){
  
   double sd,alpha;
   int n_less=0,n_more=0;
-  double *tmp_less = (double *)Calloc(rows,double);
-  double *tmp_more = (double *)Calloc(rows,double);
+  double *tmp_less = (double *)R_Calloc(rows,double);
+  double *tmp_more = (double *)R_Calloc(rows,double);
  
  
   PMmax = max_density(PM,rows,fn,rho);
@@ -300,8 +300,8 @@ void bg_parameters2(double *PM, double *param, int rows, SEXP fn,SEXP rho){
   /*  Rprintf("%f %f %f\n",param[0],param[1],param[2]); */
 
   
-  Free(tmp_less);
-  Free(tmp_more);
+  R_Free(tmp_less);
+  R_Free(tmp_more);
 }
 
 
@@ -348,9 +348,9 @@ void bm_rma_bg_correct(doubleBufferedMatrix Matrix, SEXP fn,SEXP rho){
   rows = dbm_getRows(Matrix);
   cols = dbm_getCols(Matrix);
   
-  params = Calloc(3,double);
+  params = R_Calloc(3,double);
 
-  datvec = (double *)Calloc(rows,double);
+  datvec = (double *)R_Calloc(rows,double);
   
   for (j = 0; j < cols; j++){
     dbm_getValueColumn(Matrix,&j,datvec,1);
@@ -359,8 +359,8 @@ void bm_rma_bg_correct(doubleBufferedMatrix Matrix, SEXP fn,SEXP rho){
     dbm_setValueColumn(Matrix,&j,datvec,1); 
   }
 
-  Free(params);
-  Free(datvec);
+  R_Free(params);
+  R_Free(datvec);
 
 }
 
@@ -527,8 +527,8 @@ void bm_quantile_normalize(doubleBufferedMatrix Matrix){
   rows = dbm_getRows(Matrix);
   cols = dbm_getCols(Matrix);
 
-  datvec = (double *)Calloc(rows,double);
-  row_mean = (double *)Calloc(rows,double);
+  datvec = (double *)R_Calloc(rows,double);
+  row_mean = (double *)R_Calloc(rows,double);
     
   for (i =0; i < rows; i++){
     row_mean[i] = 0.0;
@@ -546,10 +546,10 @@ void bm_quantile_normalize(doubleBufferedMatrix Matrix){
     }
   }
  
-  ranks = (double *)Calloc(rows,double);
+  ranks = (double *)R_Calloc(rows,double);
   /* now assign back distribution */
-  dimat = (dataitem **)Calloc(1,dataitem *);
-  dimat[0] = (dataitem *)Calloc(rows,dataitem);
+  dimat = (dataitem **)R_Calloc(1,dataitem *);
+  dimat[0] = (dataitem *)R_Calloc(rows,dataitem);
 
   for (j = 0; j < cols; j++){ 
  
@@ -574,12 +574,12 @@ void bm_quantile_normalize(doubleBufferedMatrix Matrix){
     }
   }
   
-  Free(ranks);
-  Free(datvec);
-  Free(dimat[0]);
+  R_Free(ranks);
+  R_Free(datvec);
+  R_Free(dimat[0]);
 
-  Free(dimat);
-  Free(row_mean);
+  R_Free(dimat);
+  R_Free(row_mean);
   
 }
 
@@ -632,7 +632,7 @@ double  median(double *x, int length){
   int i;
   int half;
   double med;
-  double *buffer = Calloc(length,double);
+  double *buffer = R_Calloc(length,double);
 
   for (i = 0; i < length; i++)
     buffer[i] = x[i];
@@ -645,7 +645,7 @@ double  median(double *x, int length){
     med = (buffer[half] + buffer[half-1])/2.0;
   }
 
-  Free(buffer);
+  R_Free(buffer);
   return med;
 }
 
@@ -687,7 +687,7 @@ double sum_abs(double *z, int rows, int cols){
 
 void get_row_median(double *z, double *rdelta, int rows, int cols){
   int i,j;
-  double *buffer = Calloc(cols,double);
+  double *buffer = R_Calloc(cols,double);
 
   for (i = 0; i < rows; i++){
     for (j = 0; j < cols; j++){
@@ -696,7 +696,7 @@ void get_row_median(double *z, double *rdelta, int rows, int cols){
     rdelta[i] = median(buffer,cols);
   }
 
-  Free(buffer);
+  R_Free(buffer);
 }
 
 /********************************************************************************
@@ -715,7 +715,7 @@ void get_col_median(double *z, double *cdelta, int rows, int cols){
 
   int i, j;
 
-  double *buffer = Calloc(rows,double);
+  double *buffer = R_Calloc(rows,double);
   for (j = 0; j < cols; j++){
     for (i = 0; i < rows; i++){
       buffer[i] = z[j*rows + i];
@@ -723,7 +723,7 @@ void get_col_median(double *z, double *cdelta, int rows, int cols){
     cdelta[j] = median(buffer,rows);
   }
 
-  Free(buffer);
+  R_Free(buffer);
 
 }
 
@@ -839,12 +839,12 @@ void median_polish(doubleBufferedMatrix Matrix, int rows, int cols, int *cur_row
   double oldsum = 0.0,newsum = 0.0;
   double t = 0.0;
   double delta;
-  double *rdelta = Calloc(nprobes,double);
-  double *cdelta = Calloc(cols,double);
+  double *rdelta = R_Calloc(nprobes,double);
+  double *cdelta = R_Calloc(cols,double);
 
-  double *r = Calloc(nprobes,double);
-  double *c = Calloc(cols,double);
-  double *z = Calloc(nprobes*cols,double);
+  double *r = R_Calloc(nprobes,double);
+  double *c = R_Calloc(cols,double);
+  double *z = R_Calloc(nprobes*cols,double);
 
 
 
@@ -885,11 +885,11 @@ void median_polish(doubleBufferedMatrix Matrix, int rows, int cols, int *cur_row
     results[j] =  t + c[j];
   }
 
-  Free(rdelta);
-  Free(cdelta);
-  Free(r);
-  Free(c);
-  Free(z);
+  R_Free(rdelta);
+  R_Free(cdelta);
+  R_Free(r);
+  R_Free(c);
+  R_Free(z);
 }
 
 
@@ -927,10 +927,10 @@ void do_RMA_buffmat(doubleBufferedMatrix Matrix, const char **ProbeNames, int *r
 
   /* buffers of size 200 should be enough. */
 
-  int *cur_rows=Calloc(max_nrows,int);
+  int *cur_rows=R_Calloc(max_nrows,int);
   int nprobes=0;
 
-  double *cur_exprs = Calloc(*cols,double);
+  double *cur_exprs = R_Calloc(*cols,double);
 
   /* double *OLDPM = NULL; */
 
@@ -943,7 +943,7 @@ void do_RMA_buffmat(doubleBufferedMatrix Matrix, const char **ProbeNames, int *r
     if (strcmp(first,ProbeNames[j]) == 0){
       if (k >= max_nrows){
         max_nrows = 2*max_nrows;
-        cur_rows = Realloc(cur_rows, max_nrows, int);
+        cur_rows = R_Realloc(cur_rows, max_nrows, int);
       }
       cur_rows[k] = j;
       k++;
@@ -956,7 +956,7 @@ void do_RMA_buffmat(doubleBufferedMatrix Matrix, const char **ProbeNames, int *r
         results[k*nps + i] = cur_exprs[k];
       }
       size = strlen(first);
-      outNames[i] = Calloc(size+1,char);
+      outNames[i] = R_Calloc(size+1,char);
       strcpy(outNames[i],first);
       i++;
       first = ProbeNames[j];
@@ -969,12 +969,12 @@ void do_RMA_buffmat(doubleBufferedMatrix Matrix, const char **ProbeNames, int *r
     results[k*nps + i] = cur_exprs[k];
   }
   size = strlen(first);
-  outNames[i] = Calloc(size+1,char);
+  outNames[i] = R_Calloc(size+1,char);
   strcpy(outNames[i],first);
 
 
-  Free(cur_exprs);
-  Free(cur_rows);
+  R_Free(cur_exprs);
+  R_Free(cur_rows);
 }
 
 
@@ -1022,13 +1022,13 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
 
   nprobesets=INTEGER(N_probes)[0];
 
-  ProbeNames = Calloc(rows,const char *);
+  ProbeNames = R_Calloc(rows,const char *);
 
   for (i =0; i < rows; i++)
     ProbeNames[i] = CHAR(STRING_ELT(ProbeNamesVec,i));
 
 
-  outnames = Calloc(nprobesets,char *);
+  outnames = R_Calloc(nprobesets,char *);
 
   /* PROTECT(outvec = NEW_NUMERIC(nprobesets*cols)); */
 
@@ -1059,10 +1059,10 @@ SEXP R_bm_summarize_medianpolish(SEXP R_BufferedMatrix, SEXP N_probes, SEXP Prob
   setAttrib(outvec, R_DimNamesSymbol, dimnames);
   UNPROTECT(2);
   for (i =0; i < nprobesets; i++)
-    Free(outnames[i]);
+    R_Free(outnames[i]);
 
-  Free(outnames);
-  Free(ProbeNames);
+  R_Free(outnames);
+  R_Free(ProbeNames);
   UNPROTECT(1);
   return outvec;
   
@@ -1088,10 +1088,10 @@ void bm_rma_bg_correct_quantile_normalize(doubleBufferedMatrix Matrix, SEXP fn,S
   rows = dbm_getRows(Matrix);
   cols = dbm_getCols(Matrix);
   
-  params = Calloc(3,double);
+  params = R_Calloc(3,double);
 
-  datvec = (double *)Calloc(rows,double);
-  row_mean = (double *)Calloc(rows,double);
+  datvec = (double *)R_Calloc(rows,double);
+  row_mean = (double *)R_Calloc(rows,double);
     
   
   for (j = 0; j < cols; j++){
@@ -1106,10 +1106,10 @@ void bm_rma_bg_correct_quantile_normalize(doubleBufferedMatrix Matrix, SEXP fn,S
     }
   }
 
-    ranks = (double *)Calloc(rows,double);
+    ranks = (double *)R_Calloc(rows,double);
   /* now assign back distribution */
-  dimat = (dataitem **)Calloc(1,dataitem *);
-  dimat[0] = (dataitem *)Calloc(rows,dataitem);
+  dimat = (dataitem **)R_Calloc(1,dataitem *);
+  dimat[0] = (dataitem *)R_Calloc(rows,dataitem);
 
   for (j = 0; j < cols; j++){ 
  
@@ -1134,12 +1134,12 @@ void bm_rma_bg_correct_quantile_normalize(doubleBufferedMatrix Matrix, SEXP fn,S
     }
   }
 
-  Free(params);
-  Free(ranks);
-  Free(datvec);
-  Free(dimat[0]);
-  Free(dimat);
-  Free(row_mean);
+  R_Free(params);
+  R_Free(ranks);
+  R_Free(datvec);
+  R_Free(dimat[0]);
+  R_Free(dimat);
+  R_Free(row_mean);
 }
 
 
